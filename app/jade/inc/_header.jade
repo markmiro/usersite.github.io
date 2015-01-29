@@ -3,8 +3,7 @@ include _mixins
 header
   .menu-button: img(src='/images/hamburger.svg', alt='Menu')
 nav
-  h4 Navigation
+  p= 'CURRENT_PAGE: ' + CURRENT_PAGE
   ul
     li: +link('') Home
     li: +link('about') About
-h1= 'CURRENT_PAGE: ' + CURRENT_PAGE

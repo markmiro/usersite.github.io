@@ -90,7 +90,8 @@ gulp.task('styles', function () {
     .pipe($.changed('.tmp/styles', {extension: '.css'}))
     .pipe($.sass({
       precision: 10,
-      onError: console.error.bind(console, 'Sass error:')
+      onError: console.error.bind(console, 'Sass error:'),
+      includePaths: []
     }))
     .pipe($.autoprefixer({browsers: AUTOPREFIXER_BROWSERS}))
     .pipe(gulp.dest('.tmp/styles'))
