@@ -191,7 +191,7 @@ var options = {
     message: 'Update ' + new Date().toISOString() + ' [skip ci]',
     branch: 'gh-pages'
 };
-gulp.task('deploy', function () {
+gulp.task('deploy', ['build'], function () {
   // gulp.src('dist/**/*')
   //   .pipe(deploy(options));
 });
