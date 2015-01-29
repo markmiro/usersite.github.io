@@ -182,12 +182,16 @@ gulp.task('pagespeed', function (cb) {
   }, cb);
 });
 
+gulp.task('build', function (cb) {
+    runSequence('clean', 'styles', 'copy' ['html'], cb);
+});
+
 var deploy = require('gulp-gh-pages');
 var options = {
     message: 'Update ' + new Date().toISOString() + ' [skip ci]',
     branch: 'gh-pages'
 };
-gulp.task('deploy', ['default'], function () {
+gulp.task('deploy', ['build'], function () {
   gulp.src('dist/**/*')
     .pipe(deploy(options));
 });
