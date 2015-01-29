@@ -188,8 +188,8 @@ var options = {
     branch: 'gh-pages'
 };
 gulp.task('deploy', ['default'], function () {
-    gulp.src('dist/**/*')
-        .pipe(deploy(options));
+  gulp.src('dist/**/*')
+    .pipe(deploy(options));
 });
 
 // Load custom tasks from the `tasks` directory
