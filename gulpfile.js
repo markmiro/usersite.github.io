@@ -183,7 +183,7 @@ gulp.task('pagespeed', function (cb) {
 });
 
 gulp.task('build', function (cb) {
-    runSequence('clean', 'styles', 'copy', ['html'], cb);
+    runSequence('copy', cb);
 });
 
 var deploy = require('gulp-gh-pages');
