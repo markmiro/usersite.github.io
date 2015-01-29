@@ -182,5 +182,15 @@ gulp.task('pagespeed', function (cb) {
   }, cb);
 });
 
+var deploy = require('gulp-gh-pages');
+var options = {
+    message: 'Update ' + new Date().toISOString() + ' [skip ci]',
+    branch: 'gh-pages'
+};
+gulp.task('deploy', ['default'], function () {
+    gulp.src('dist/**/*')
+        .pipe(deploy(options));
+});
+
 // Load custom tasks from the `tasks` directory
 // try { require('require-dir')('tasks'); } catch (err) { console.error(err); }

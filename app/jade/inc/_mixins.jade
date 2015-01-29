@@ -1,0 +1,5 @@
+- var CURRENT_PAGE
+
+mixin link(name)
+  a(href='/'+name, class=CURRENT_PAGE==name?'active':'')
+    block
