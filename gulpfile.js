@@ -27,6 +27,7 @@ var runSequence = require('run-sequence');
 var browserSync = require('browser-sync');
 var pagespeed = require('psi');
 var reload = browserSync.reload;
+var neat = require('node-neat').includePaths;
 
 var AUTOPREFIXER_BROWSERS = [
   'ie >= 10',
@@ -91,7 +92,7 @@ gulp.task('styles', function () {
     .pipe($.sass({
       precision: 10,
       onError: console.error.bind(console, 'Sass error:'),
-      includePaths: []
+      includePaths: ['styles'].concat(neat)
     }))
     .pipe($.autoprefixer({browsers: AUTOPREFIXER_BROWSERS}))
     .pipe(gulp.dest('.tmp/styles'))
