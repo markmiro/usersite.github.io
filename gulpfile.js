@@ -27,6 +27,7 @@ var runSequence = require('run-sequence');
 var browserSync = require('browser-sync');
 var pagespeed = require('psi');
 var reload = browserSync.reload;
+var neat = require('node-neat').includePaths;
 
 var AUTOPREFIXER_BROWSERS = [
   'ie >= 10',
@@ -84,13 +85,13 @@ gulp.task('styles', function () {
   // For best performance, don't add Sass partials to `gulp.src`
   return gulp.src([
     'app/styles/*.scss',
-    'app/styles/**/*.css',
-    'app/styles/components/components.scss'
+    'app/styles/**/*.css'
   ])
     .pipe($.changed('.tmp/styles', {extension: '.css'}))
     .pipe($.sass({
       precision: 10,
-      onError: console.error.bind(console, 'Sass error:')
+      onError: console.error.bind(console, 'Sass error:'),
+      includePaths: ['styles', 'app/bower_components/reset-scss'].concat(neat)
     }))
     .pipe($.autoprefixer({browsers: AUTOPREFIXER_BROWSERS}))
     .pipe(gulp.dest('.tmp/styles'))
@@ -104,33 +105,39 @@ gulp.task('styles', function () {
 gulp.task('html', function () {
   var assets = $.useref.assets({searchPath: '{.tmp,app}'});
 
-  return gulp.src('app/**/*.html')
+  return gulp.src('app/jade/*.jade')
+    .pipe($.jade({ pretty: true }))
     .pipe(assets)
     // Concatenate And Minify JavaScript
     .pipe($.if('*.js', $.uglify({preserveComments: 'some'})))
     // Remove Any Unused CSS
     // Note: If not using the Style Guide, you can delete it from
     // the next line to only include styles your project uses.
-    .pipe($.if('*.css', $.uncss({
-      html: [
-        'app/index.html',
-        'app/styleguide.html'
-      ],
-      // CSS Selectors for UnCSS to ignore
-      ignore: [
-        /.navdrawer-container.open/,
-        /.app-bar.open/
-      ]
-    })))
+    // .pipe($.if('*.css', $.uncss({
+    //   html: [
+    //     'app/index.html',
+    //     'app/styleguide.html'
+    //   ],
+    //   // CSS Selectors for UnCSS to ignore
+    //   ignore: [
+    //     /.navdrawer-container.open/,
+    //     /.app-bar.open/
+    //   ]
+    // })))
     // Concatenate And Minify Styles
     // In case you are still using useref build blocks
     .pipe($.if('*.css', $.csso()))
     .pipe(assets.restore())
     .pipe($.useref())
-    // Update Production Style Guide Paths
-    .pipe($.replace('components/components.css', 'components/main.min.css'))
+
+    // Make index pages for each html page
+    .pipe($.rename(function (path) {
+        if (path.extname !== '.html') return;
+        if (path.basename !== 'index') path.dirname += '/' + path.basename;
+        path.basename = 'index';
+    }))
     // Minify Any HTML
-    .pipe($.if('*.html', $.minifyHtml()))
+    // .pipe($.if('*.html', $.minifyHtml()))
     // Output Files
     .pipe(gulp.dest('dist'))
     .pipe($.size({title: 'html'}));
@@ -140,7 +147,7 @@ gulp.task('html', function () {
 gulp.task('clean', del.bind(null, ['.tmp', 'dist/*', '!dist/.git'], {dot: true}));
 
 // Watch Files For Changes & Reload
-gulp.task('serve', ['styles'], function () {
+gulp.task('serve', ['styles', 'html'], function () {
   browserSync({
     notify: false,
     // Customize the BrowserSync console logging prefix
@@ -149,26 +156,13 @@ gulp.task('serve', ['styles'], function () {
     // Note: this uses an unsigned certificate which on first access
     //       will present a certificate warning in the browser.
     // https: true,
-    server: ['.tmp', 'app']
+    server: ['dist']
   });
 
-  gulp.watch(['app/**/*.html'], reload);
+  gulp.watch(['app/**/*.jade'], ['html', reload]);
   gulp.watch(['app/styles/**/*.{scss,css}'], ['styles', reload]);
   gulp.watch(['app/scripts/**/*.js'], ['jshint']);
   gulp.watch(['app/images/**/*'], reload);
-});
-
-// Build and serve the output from the dist build
-gulp.task('serve:dist', ['default'], function () {
-  browserSync({
-    notify: false,
-    logPrefix: 'WSK',
-    // Run as an https by uncommenting 'https: true'
-    // Note: this uses an unsigned certificate which on first access
-    //       will present a certificate warning in the browser.
-    // https: true,
-    server: 'dist'
-  });
 });
 
 // Build Production Files, the Default Task
@@ -185,6 +179,19 @@ gulp.task('pagespeed', function (cb) {
     // Use a Google Developer API key if you have one: http://goo.gl/RkN0vE
     // key: 'YOUR_API_KEY'
   }, cb);
+});
+
+gulp.task('build', function (cb) {
+    runSequence('copy', cb);
+});
+
+var options = {
+    message: 'Update ' + new Date().toISOString() + ' [skip ci]',
+    branch: 'gh-pages'
+};
+gulp.task('deploy', ['default'], function () {
+  gulp.src('dist/**/*')
+    .pipe($.ghPages(options));
 });
 
 // Load custom tasks from the `tasks` directory
