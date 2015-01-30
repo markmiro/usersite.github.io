@@ -1,11 +1,8 @@
-@import "bourbon";
-@import "neat";
-@import "reset";
+@import "reset";    // Reset all styles
+@import "bourbon";  // Use this for its functions and addons
+@import "neat";     // Grid framework
 
 * { box-sizing: border-box; }
-a:visited {
-  color: none;
-}
 
 .menu-button img {
   height: 50px;
