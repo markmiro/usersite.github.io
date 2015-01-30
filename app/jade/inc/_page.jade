@@ -1,3 +1,5 @@
+include _nav
+
 mixin page(name, title)
   - CURRENT_PAGE = name
   doctype html
@@ -11,7 +13,10 @@ mixin page(name, title)
       meta(name='viewport', content='width=device-width, initial-scale=1')
       //- meta(name='description', content='A front-end template that helps you build fast, modern mobile web apps.')
 
-      title= title
+      if title
+        title= title + ' - My Site'
+      else
+        title My Site
 
       //--Add to homescreen
       //- link(rel='manifest', href='manifest.json')
@@ -39,7 +44,7 @@ mixin page(name, title)
       //--Page styles
       link(rel='stylesheet', href='/styles/main.css')
     body
-      include _header
+      +nav(name)
       block
       // build:js /scripts/main.min.js
       script(src='/scripts/main.js')

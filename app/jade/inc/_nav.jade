@@ -1,6 +1,13 @@
-- var CURRENT_PAGE
 - var HOME_PAGE = 'home'
 
 mixin link(name)
   a(href='/'+name, class=(CURRENT_PAGE==name || (CURRENT_PAGE==HOME_PAGE && name=='')) ? 'active':'')
     block
+
+mixin nav(name)
+  - var CURRENT_PAGE = name
+  nav
+    p= 'CURRENT_PAGE: ' + CURRENT_PAGE
+    ul
+      li: +link('') Home
+      li: +link('about') About
