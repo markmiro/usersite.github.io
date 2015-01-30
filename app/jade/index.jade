@@ -1,5 +1,10 @@
-include inc/_page
-+page('home', 'Home')
+extends inc/_layout
+
+block vars
+  - TITLE = 'Home'
+  - NAME = 'home'
+
+block content
   main
     h1 Hello!
     p Lorem ipsum Tempor pariatur amet reprehenderit consectetur commodo elit eu amet culpa.

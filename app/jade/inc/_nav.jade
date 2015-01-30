@@ -1,0 +1,17 @@
+- var CURRENT_PAGE
+- var HOME_PAGE = 'home'
+
+mixin link(name)
+  a(href='/'+name, class=(CURRENT_PAGE==name || (CURRENT_PAGE==HOME_PAGE && name=='')) ? 'active':'')
+    block
+
+mixin nav(current)
+  - CURRENT_PAGE = current
+  header
+    .menu-button: img(src='/images/hamburger.svg', alt='Menu')
+  nav
+    p= 'CURRENT_PAGE: ' + CURRENT_PAGE
+    ul
+      li: +link('') Home
+      li: +link('about') About
+      li: +link('styleguide') Styleguide

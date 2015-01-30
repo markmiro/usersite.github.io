@@ -1,0 +1,12 @@
+extends inc/_layout
+
+block vars
+  - TITLE = 'Styleguide'
+  - NAME = 'styleguide'
+
+block styles
+  link(rel='stylesheet', href='/styles/components.css')
+
+block content
+  h1 Hello there!
+  p= 'title: ' + TITLE

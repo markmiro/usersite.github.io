@@ -1,3 +1,8 @@
-include inc/_page
-+page('about', 'About')
-  p This is the about page. And guess what I changed it!
+extends inc/_layout
+
+block vars
+  - TITLE = 'About'
+  - NAME = 'about'
+
+block content
+  h1 Hello there!
