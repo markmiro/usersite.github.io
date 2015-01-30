@@ -92,7 +92,7 @@ gulp.task('styles', function () {
     .pipe($.sass({
       precision: 10,
       onError: console.error.bind(console, 'Sass error:'),
-      includePaths: ['styles'].concat(neat)
+      includePaths: ['styles', 'app/bower_components/reset-scss'].concat(neat)
     }))
     .pipe($.autoprefixer({browsers: AUTOPREFIXER_BROWSERS}))
     .pipe(gulp.dest('.tmp/styles'))

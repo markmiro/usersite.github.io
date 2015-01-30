@@ -1,0 +1,21 @@
+{
+  "name": "web-starter-kit",
+  "version": "0.5.3",
+  "homepage": "https://github.com/markmiro/web-starter-kit",
+  "authors": [
+    "Mark Miro <markmirony@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "reset-scss": "*"
+  }
+}
