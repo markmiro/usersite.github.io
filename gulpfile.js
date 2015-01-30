@@ -85,8 +85,7 @@ gulp.task('styles', function () {
   // For best performance, don't add Sass partials to `gulp.src`
   return gulp.src([
     'app/styles/*.scss',
-    'app/styles/**/*.css',
-    'app/styles/components/components.scss'
+    'app/styles/**/*.css'
   ])
     .pipe($.changed('.tmp/styles', {extension: '.css'}))
     .pipe($.sass({
@@ -137,8 +136,6 @@ gulp.task('html', function () {
         if (path.basename !== 'index') path.dirname += '/' + path.basename;
         path.basename = 'index';
     }))
-    // Update Production Style Guide Paths
-    .pipe($.replace('components/components.css', 'components/main.min.css'))
     // Minify Any HTML
     // .pipe($.if('*.html', $.minifyHtml()))
     // Output Files
