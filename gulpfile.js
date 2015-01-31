@@ -26,8 +26,10 @@ var del = require('del');
 var runSequence = require('run-sequence');
 var browserSync = require('browser-sync');
 var pagespeed = require('psi');
+var favicons = require('favicons');
 var reload = browserSync.reload;
 var neat = require('node-neat').includePaths;
+var fs = require('fs'); // built-in node module
 
 var AUTOPREFIXER_BROWSERS = [
   'ie >= 10',
@@ -65,6 +67,7 @@ gulp.task('images', function () {
 gulp.task('copy', function () {
   return gulp.src([
     'app/*',
+    '!app/jade',
     '!app/*.html',
     'node_modules/apache-server-configs/dist/.htaccess'
   ], {
@@ -102,45 +105,98 @@ gulp.task('styles', function () {
 });
 
 // Scan Your HTML For Assets & Optimize Them
-gulp.task('html', function () {
-  var assets = $.useref.assets({searchPath: '{.tmp,app}'});
+gulp.task('html', ['favicon'], function (done) {
+  fs.readFile('.tmp/favicons.html', 'utf8', function (error, data) {
+    if (error) return console.log(error);
+    var faviconMeta = data;
 
-  return gulp.src('app/jade/*.jade')
-    .pipe($.jade({ pretty: true }))
-    .pipe(assets)
-    // Concatenate And Minify JavaScript
-    .pipe($.if('*.js', $.uglify({preserveComments: 'some'})))
-    // Remove Any Unused CSS
-    // Note: If not using the Style Guide, you can delete it from
-    // the next line to only include styles your project uses.
-    // .pipe($.if('*.css', $.uncss({
-    //   html: [
-    //     'app/index.html',
-    //     'app/styleguide.html'
-    //   ],
-    //   // CSS Selectors for UnCSS to ignore
-    //   ignore: [
-    //     /.navdrawer-container.open/,
-    //     /.app-bar.open/
-    //   ]
-    // })))
-    // Concatenate And Minify Styles
-    // In case you are still using useref build blocks
-    .pipe($.if('*.css', $.csso()))
-    .pipe(assets.restore())
-    .pipe($.useref())
+    var assets = $.useref.assets({searchPath: '{.tmp,app}'});
+    gulp.src('app/jade/*.jade')
+      .pipe($.jade({pretty: true, locals: {FAVICON_META: faviconMeta}}))
+      .pipe(assets)
+      // Concatenate And Minify JavaScript
+      .pipe($.if('*.js', $.uglify({preserveComments: 'some'})))
+      // Remove Any Unused CSS
+      // Note: If not using the Style Guide, you can delete it from
+      // the next line to only include styles your project uses.
+      // .pipe($.if('*.css', $.uncss({
+      //   html: [
+      //     'app/index.html',
+      //     'app/styleguide.html'
+      //   ],
+      //   // CSS Selectors for UnCSS to ignore
+      //   ignore: [
+      //     /.navdrawer-container.open/,
+      //     /.app-bar.open/
+      //   ]
+      // })))
+      // Concatenate And Minify Styles
+      // In case you are still using useref build blocks
+      .pipe($.if('*.css', $.csso()))
+      .pipe(assets.restore())
+      .pipe($.useref())
 
-    // Make index pages for each html page
-    .pipe($.rename(function (path) {
-        if (path.extname !== '.html') return;
-        if (path.basename !== 'index') path.dirname += '/' + path.basename;
-        path.basename = 'index';
-    }))
-    // Minify Any HTML
-    // .pipe($.if('*.html', $.minifyHtml()))
-    // Output Files
-    .pipe(gulp.dest('dist'))
-    .pipe($.size({title: 'html'}));
+      // Make index pages for each html page
+      .pipe($.rename(function (path) {
+          if (path.extname !== '.html') return;
+          if (path.basename !== 'index') path.dirname += '/' + path.basename;
+          path.basename = 'index';
+      }))
+      // Minify Any HTML
+      // .pipe($.if('*.html', $.minifyHtml()))
+      // Output Files
+      .pipe(gulp.dest('dist'))
+      .pipe($.size({title: 'html'}));
+    done();
+  });
+
+});
+
+gulp.task('favicon', function (done) {
+
+  var requiredFavicon = 'app/favicons/_required-favicon-1024x1024.png'
+  favicons({
+    files: {
+      src: requiredFavicon,
+      dest: 'dist/favicons',
+      iconsPath: '/favicons/',
+      html: '.tmp/favicons.html'
+    },
+    icons: {
+      android: true,
+      appleIcon: true,
+      appleTouch: true,
+      appleStartup: false,
+      coast: false,
+      favicons: true,
+      firefox: false,
+      windows: true,
+      opengraph: false
+    },
+    settings: {
+      background: 'transparent',
+      logging: true
+    }
+  }, function () {
+    // requiredFavicon is the only one that is strictly needed
+    // all others in the same folder are optional,
+    // but if they exist, they override the generated ones
+    gulp.src([
+        'app/favicons/*',
+        '!app/favicons/_*'
+      ])
+      .pipe(gulp.dest('dist/favicons'))
+      .pipe($.size({title: 'favicon'}));
+    done();
+  });
+});
+
+gulp.task('favicon:check', function () {
+  // TODO: install gulp-open and open this page
+  // Also try using CNAME file contents everwhere a url is needed, like below,
+  // or other files. Or maybe have CNAME file be generated from a config file
+  // that also sets up title suffix, manifest.json, and other things
+  //http://realfavicongenerator.net/favicon_checker?site=
 });
 
 // Clean Output Directory
@@ -167,7 +223,7 @@ gulp.task('serve', ['styles', 'html'], function () {
 
 // Build Production Files, the Default Task
 gulp.task('default', ['clean'], function (cb) {
-  runSequence('styles', ['jshint', 'html', 'images', 'fonts', 'copy'], cb);
+  runSequence('styles', ['jshint', 'favicon', 'html', 'images', 'fonts', 'copy'], cb);
 });
 
 // Run PageSpeed Insights
