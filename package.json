@@ -41,7 +41,7 @@
     "init": "npm i -g gulp",
     "start": "gulp",
     "deploy": "GH_OWNER=markmiro GH_PROJECT_NAME=usersite.github.io gulp deploy --production",
-    "test": "gulp dist --production",
+    "test": "gulp --production",
     "travis": "if [ \"$TRAVIS_PULL_REQUEST\" != \"false\" ] || [ \"$TRAVIS_BRANCH\" != \"master\" ]; then npm run test; else npm run deploy; fi;"
   }
 }
