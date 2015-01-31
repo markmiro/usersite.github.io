@@ -17,6 +17,16 @@ $ gulp
 Build and optimize the current project, ready for deployment.
 This includes linting as well as image, script, stylesheet and HTML optimization and minification.
 
+## Deploy
+
+Just commit and make sure the changes are pushed. A continuous integration tool will take care of building and committing the changes to the master branch.
+
+You can also deploy from your local machine:
+
+```sh
+$ gulp deploy
+```
+
 ## Performance Insights
 
 ```sh
