@@ -1,0 +1,25 @@
+include _nav
+
+mixin page(name, title)
+  doctype html
+  html(lang='en')
+    head
+
+      if title
+        title= title + ' - My Site'
+      else
+        title My Site
+
+      include _meta
+
+      //--Page styles
+      link(rel='stylesheet', href='/styles/main.css')
+
+    body
+      +nav(name)
+      block
+      // build:js /scripts/main.min.js
+      script(src='/scripts/main.js')
+      script(src='/scripts/main-helper.js')
+      // endbuild
+      //- include _analytics

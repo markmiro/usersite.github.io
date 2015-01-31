@@ -65,6 +65,7 @@ gulp.task('images', function () {
 gulp.task('copy', function () {
   return gulp.src([
     'app/*',
+    '!app/bower_components',
     '!app/jade',
     '!app/*.html'
   ], {
