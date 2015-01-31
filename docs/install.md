@@ -41,7 +41,7 @@ $ npm install --global gulp
 Next, install the local dependencies Web Starter Kit requires:
 
 ```sh
-$ npm install
+$ npm install; bower install
 ```
 
 That's it! You should now have everything needed to use the Web Starter Kit.

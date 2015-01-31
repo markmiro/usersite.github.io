@@ -14,3 +14,6 @@ At present, we officially aim to support the following browsers:
 * Android / Chrome 4.4, 4.4.3
 
 This is not to say that Web Starter Kit cannot be used in browsers older than those reflected, but merely that our focus will be on ensuring our layouts work great in the above.
+
+* [Setting up your environment](docs/install.md)
+* [Commands](docs/commands.md)
