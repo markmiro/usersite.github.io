@@ -4,10 +4,11 @@ node_js:
 before_script:
   - git config --global user.email "markmirony+github@gmail.com"
   - git config --global user.name "Mark Miro"
-  - bower install
+  - git remote set-url origin git@github.com:markmiro/usersite.github.io.git
 after_script:
   - git config credential.helper "store --file=.git/credentials"
   - echo "https://${GH_TOKEN}:@github.com" > .git/credentials
+  - bower install
   - gulp deploy
 env:
   global:
