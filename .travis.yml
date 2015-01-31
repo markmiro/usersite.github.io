@@ -1,15 +1,7 @@
 language: node_js
 node_js:
   - '0.10'
-before_script:
-  - git config --global user.email "markmirony+github@gmail.com"
-  - git config --global user.name "Mark Miro"
-  - git remote set-url origin git@github.com:markmiro/usersite.github.io.git
-after_script:
-  - git config credential.helper "store --file=.git/credentials"
-  - echo "https://${GH_TOKEN}:@github.com" > .git/credentials
-  - bower install
-  - gulp deploy
+script: npm run-script deploy
 env:
   global:
     secure: "lq/ipWMPaTWorzckuZe/cXtqI7Qfef61nuwq4n4gIz81Kp8u7ETXDVgyfgCQHH9O5hoZx6bMsCRoi1KA4y8UK3lWXTaPhnHf7qb2n0FeFHEKp389qyV5E6239ghuAmmRKi08XAgJ5WmMpaDZJof+GUN4elzNhwyBMtIMm20w19A="
