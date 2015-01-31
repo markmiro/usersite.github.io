@@ -4,14 +4,9 @@
 
 * { box-sizing: border-box; }
 
-.menu-button img {
-  height: 50px;
-}
-
 a.active {
   color: gray !important;
 }
-
 
 section {
   @include outer-container;
