@@ -35,6 +35,6 @@
   },
   "private": true,
   "scripts": {
-    "test": "./deploy.sh"
+    "test": "gulp deploy"
   }
 }
