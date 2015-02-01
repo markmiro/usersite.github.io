@@ -17,3 +17,12 @@ This is not to say that Web Starter Kit cannot be used in browsers older than th
 
 * [Setting up your environment](docs/install.md)
 * [Commands](docs/commands.md)
+
+## Files that need to be customized for each site
+
+* `init`: Replace `git@github.com:markmiro/usersite.github.io.git` with your name and repo. Also replace the name and email to anything
+* `app/CNAME`: Update with the url you'll be hosting your website at.
+  - [General info about custom domains for GitHub Pages](https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages/)
+  - [How to configure a top-level domain](https://help.github.com/articles/tips-for-configuring-an-a-record-with-your-dns-provider/)
+* `gulpfile.js`: If you're making a Github User page then change out `'gh-pages'` to `'master'`
+* `app/manifest.json`: Change `"Web Starter Kit"` to `Your Website Name`
