@@ -2,8 +2,10 @@ language: node_js
 node_js:
   - '0.10'
 before-script:
-  - git config --global user.name "Travis-CI"
+  - git config --global user.name "Mark Miro"
   - git config --global user.email "markmirony+github@gmail.com"
+  - npm install -g bower
+  - bower install
 script: npm run deploy
 env:
   global:
