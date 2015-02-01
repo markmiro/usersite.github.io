@@ -26,3 +26,4 @@ This is not to say that Web Starter Kit cannot be used in browsers older than th
   - [How to configure a top-level domain](https://help.github.com/articles/tips-for-configuring-an-a-record-with-your-dns-provider/)
 * `gulpfile.js`: If you're making a Github User page then change out `'gh-pages'` to `'master'`
 * `app/manifest.json`: Change `"Web Starter Kit"` to `Your Website Name`
+* `app/jade/_/page.jade`: Change `Web Starter Kit` to `Your Website Name`
