@@ -1,0 +1,12 @@
+# build image from Docker Hub (see https://registry.hub.docker.com/repos/shippableimages/)
+build_image: shippableimages/ubuntu1404_nodejs
+
+# language setting
+language: node_js
+
+# version numbers, testing against two versions of node
+node_js:
+  - 0.10.25
+
+script:
+ - ./init
