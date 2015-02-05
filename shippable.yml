@@ -6,7 +6,10 @@ language: node_js
 
 # version numbers, testing against two versions of node
 node_js:
-  - 0.10.25
+  - 0.10.29
+
+before_install:
+  - npm install -g npm@next
 
 install:
   - ./init
