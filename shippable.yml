@@ -11,5 +11,5 @@ node_js:
 install:
   - ./init
 
-script:
-  - npm test
+# script:
+#   - npm test
