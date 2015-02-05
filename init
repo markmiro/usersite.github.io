@@ -3,6 +3,3 @@
 git config --global user.name "CI-Server"
 git config --global user.email "ci@example.com"
 git remote set-url origin git@github.com:markmiro/usersite.github.io.git
-
-npm install -g bower
-bower install
