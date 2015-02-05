@@ -8,5 +8,8 @@ language: node_js
 node_js:
   - 0.10.25
 
+install:
+  - ./init
+
 script:
- - ./init
+  - npm test
