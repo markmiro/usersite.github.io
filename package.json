@@ -36,6 +36,7 @@
   },
   "private": true,
   "scripts": {
+    "gulp": "gulp",
     "postinstall": "bower install",
     "test": "gulp deploy"
   }
