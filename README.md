@@ -1,5 +1,7 @@
 ## Overview
 
+**IMPORTANT: ARCHIVED**
+
 This is a fork of Google's [Web Starter Kit](https://developers.google.com/web/starter-kit). It is modified to be suited for making static websites hosted on Github Pages.
 
 ## Browser Support
